@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 
 public class main extends javax.swing.JFrame {
 
-    private int numeroCasillas = 30;
+    private static int numeroCasillas = 30;
     private Mapa tablero;
     
     public main() {

@@ -17,10 +17,12 @@ public class Mapa extends JPanel {
         
         casillas = new JPanel[numCasilla][numCasilla];
         crearMapa();
+        numCasilla = 100;
     }
 
     private void crearMapa() {
-        setLayout(new GridLayout(numCasilla, numCasilla));
+        setLayout(null);
+        int tamCasilla = 750 / numCasilla;
 
         for (int fila = 0; fila < numCasilla; fila++) {
             for (int columna = 0; columna < numCasilla; columna++) {
@@ -28,8 +30,8 @@ public class Mapa extends JPanel {
                 casillas[fila][columna].setBackground(Color.white);
                 casillas[fila][columna].setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
                 casillas[fila][columna].setName(fila + "," + columna);
+                casillas[fila][columna].setBounds(columna * tamCasilla, fila * tamCasilla, tamCasilla, tamCasilla);
                 add(casillas[fila][columna]);
-
                 eventosBotones(fila, columna);
             }
         }
@@ -52,6 +54,7 @@ public class Mapa extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int coordenadas[] = obtenerCoordenadas((JPanel) e.getSource());
+                System.out.println("Casilla: " + coordenadas[0] + "," + coordenadas[1]);
                 casillas[coordenadas[0]][coordenadas[1]].setBackground(Color.red);
             }
         });
