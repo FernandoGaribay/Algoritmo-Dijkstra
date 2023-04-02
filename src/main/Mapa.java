@@ -9,10 +9,12 @@ import javax.swing.JPanel;
 
 public class Mapa extends JPanel {
 
-    private static final int numCasilla = 30;
+    private static int numCasilla = 30;
     private JPanel casillas[][];
 
-    public Mapa() {
+    public Mapa(int numCasilla) {
+        this.numCasilla = numCasilla;
+        
         casillas = new JPanel[numCasilla][numCasilla];
         crearMapa();
     }

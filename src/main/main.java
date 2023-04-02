@@ -1,20 +1,27 @@
 package main;
 
+import javax.swing.JOptionPane;
+
 public class main extends javax.swing.JFrame {
 
+    private int numeroCasillas = 30;
     private Mapa tablero;
     
     public main() {
         initComponents();
-        this.pnlMapa.setBounds(5, 100, 750, 750);
-        
-        tablero = new Mapa();
-        tablero.setBounds(0, 0, this.pnlMapa.getWidth(), this.pnlMapa.getHeight());
-        pnlMapa.add(tablero);
+
+        this.actualizarUI();
     }
     
-    public void actualizar(){
+    public void actualizarUI(){
+        pnlMapa.removeAll();
         
+        tablero = new Mapa(numeroCasillas);
+        pnlMapa.add(tablero);
+        tablero.setBounds(0, 0, pnlMapa.getWidth(), pnlMapa.getHeight());
+        
+        pnlMapa.revalidate();
+        pnlMapa.repaint();
     }
 
 
@@ -26,7 +33,8 @@ public class main extends javax.swing.JFrame {
         pnlMapa = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        menuConfiguracion = new javax.swing.JMenu();
+        btnNumCasillas = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("frame"); // NOI18N
@@ -52,8 +60,17 @@ public class main extends javax.swing.JFrame {
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        menuConfiguracion.setText("Configuración");
+
+        btnNumCasillas.setText("Numero de Casillas");
+        btnNumCasillas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNumCasillasActionPerformed(evt);
+            }
+        });
+        menuConfiguracion.add(btnNumCasillas);
+
+        jMenuBar1.add(menuConfiguracion);
 
         setJMenuBar(jMenuBar1);
 
@@ -71,6 +88,11 @@ public class main extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNumCasillasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNumCasillasActionPerformed
+        this.numeroCasillas = Integer.parseInt(JOptionPane.showInputDialog("Dijite el numero de casillas"));
+        actualizarUI();
+    }//GEN-LAST:event_btnNumCasillasActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -98,9 +120,10 @@ public class main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem btnNumCasillas;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu menuConfiguracion;
     private javax.swing.JPanel pnlContenedor;
     private javax.swing.JPanel pnlMapa;
     // End of variables declaration//GEN-END:variables
