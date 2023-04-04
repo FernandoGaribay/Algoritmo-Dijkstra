@@ -32,12 +32,13 @@ public class Mapa extends JPanel {
                 casillas[fila][columna].setName(fila + "," + columna);
                 casillas[fila][columna].setBounds(columna * tamCasilla, fila * tamCasilla, tamCasilla, tamCasilla);
                 add(casillas[fila][columna]);
+                
                 eventosBotones(fila, columna);
             }
         }
     }
 
-    public void eventosBotones(int fila, int columna) {
+    private void eventosBotones(int fila, int columna) {
         casillas[fila][columna].addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -45,7 +46,14 @@ public class Mapa extends JPanel {
                     int ancho = ((JPanel) e.getSource()).getWidth();
                     int x = (e.getX() + casillas[fila][columna].getX()) / ancho;
                     int y = (e.getY() + casillas[fila][columna].getY()) / ancho;
-                    casillas[y][x].setBackground(Color.red);
+
+                    if ((e.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) == MouseEvent.BUTTON1_DOWN_MASK) {
+                        casillas[y][x].setBackground(Color.gray);
+                        
+                    } else if ((e.getModifiersEx() & MouseEvent.BUTTON3_DOWN_MASK) == MouseEvent.BUTTON3_DOWN_MASK) {
+                        casillas[y][x].setBackground(Color.white);
+                        
+                    }
                 } catch (Exception ex) {}
             }
         });
@@ -53,11 +61,26 @@ public class Mapa extends JPanel {
         casillas[fila][columna].addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int coordenadas[] = obtenerCoordenadas((JPanel) e.getSource());
-                System.out.println("Casilla: " + coordenadas[0] + "," + coordenadas[1]);
-                casillas[coordenadas[0]][coordenadas[1]].setBackground(Color.red);
+                JPanel panel = (JPanel) e.getSource();
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    clickIzquierdo(panel);
+                } else if (e.getButton() == MouseEvent.BUTTON3){
+                    clickDerecho(panel);
+                }
             }
         });
+    }
+    
+    private void clickIzquierdo(JPanel e){
+        int coordenadas[] = obtenerCoordenadas(e);
+        System.out.println("Casilla: " + coordenadas[0] + "," + coordenadas[1]);
+        casillas[coordenadas[0]][coordenadas[1]].setBackground(Color.green);
+    }
+    
+    private void clickDerecho(JPanel e){
+        int coordenadas[] = obtenerCoordenadas(e);
+        System.out.println("Casilla: " + coordenadas[0] + "," + coordenadas[1]);
+        casillas[coordenadas[0]][coordenadas[1]].setBackground(Color.red);
     }
 
     private int[] obtenerCoordenadas(JPanel boton) {
