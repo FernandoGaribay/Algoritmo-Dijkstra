@@ -32,7 +32,7 @@ public class main extends javax.swing.JFrame {
         pnlContenedor = new javax.swing.JPanel();
         pnlMapa = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        menuHerramientas = new javax.swing.JMenu();
         menuConfiguracion = new javax.swing.JMenu();
         btnNumCasillas = new javax.swing.JMenuItem();
 
@@ -57,8 +57,8 @@ public class main extends javax.swing.JFrame {
 
         pnlContenedor.add(pnlMapa, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 750, 750));
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        menuHerramientas.setText("Herramientas");
+        jMenuBar1.add(menuHerramientas);
 
         menuConfiguracion.setText("Configuración");
 
@@ -121,9 +121,9 @@ public class main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem btnNumCasillas;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu menuConfiguracion;
+    private javax.swing.JMenu menuHerramientas;
     private javax.swing.JPanel pnlContenedor;
     private javax.swing.JPanel pnlMapa;
     // End of variables declaration//GEN-END:variables

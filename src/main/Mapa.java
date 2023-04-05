@@ -1,7 +1,6 @@
 package main;
 
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
@@ -9,15 +8,23 @@ import javax.swing.JPanel;
 
 public class Mapa extends JPanel {
 
-    private static int numCasilla = 30;
+    private int numCasilla;
     private JPanel casillas[][];
+    private Nodo nodos[][];
+    private int inicioX, inicioY;
+    private int finX, finY;
 
     public Mapa(int numCasilla) {
         this.numCasilla = numCasilla;
         
         casillas = new JPanel[numCasilla][numCasilla];
+        nodos = new Nodo[numCasilla][numCasilla];
+        inicioX = -1;
+        inicioY = -1;
+        finX = -1;
+        finY = -1;
+        
         crearMapa();
-        numCasilla = 100;
     }
 
     private void crearMapa() {
@@ -33,6 +40,7 @@ public class Mapa extends JPanel {
                 casillas[fila][columna].setBounds(columna * tamCasilla, fila * tamCasilla, tamCasilla, tamCasilla);
                 add(casillas[fila][columna]);
                 
+                nodos[fila][columna] = new Nodo(fila,columna);
                 eventosBotones(fila, columna);
             }
         }
@@ -73,14 +81,44 @@ public class Mapa extends JPanel {
     
     private void clickIzquierdo(JPanel e){
         int coordenadas[] = obtenerCoordenadas(e);
+
+        if (inicioX > -1 && inicioY > -1) {
+            System.out.print("\nNodo antiguo: " + nodos[inicioX][inicioY].getX() + "," + nodos[inicioX][inicioY].getY() + "; Tipo: " + nodos[inicioX][inicioY].getEstado());
+            nodos[inicioX][inicioY].setVacio();
+            nodos[inicioX][inicioY].setSaltos(-1);
+            casillas[inicioX][inicioY].setBackground(Color.white);
+            System.out.print(" -> " + nodos[inicioX][inicioY].getEstado()+ "\n");
+        }
+        inicioX = coordenadas[0];
+        inicioY = coordenadas[1];
+        
+        nodos[inicioX][inicioY].setSaltos(0);
+        nodos[inicioX][inicioY].setInicio();	//SET THE NODE CLICKED TO BE START
+        casillas[inicioX][inicioY].setBackground(Color.green);
+        
         System.out.println("Casilla: " + coordenadas[0] + "," + coordenadas[1]);
-        casillas[coordenadas[0]][coordenadas[1]].setBackground(Color.green);
+        System.out.println("Nodo nuevo: " + nodos[coordenadas[0]][coordenadas[1]].getX() + "," + nodos[coordenadas[0]][coordenadas[1]].getY() + "; Tipo: " + nodos[coordenadas[0]][coordenadas[1]].getEstado());
+        repaint();
     }
     
-    private void clickDerecho(JPanel e){
+    private void clickDerecho(JPanel e){     
         int coordenadas[] = obtenerCoordenadas(e);
+
+        if (finX > -1 && finY > -1) {
+            System.out.print("\nNodo antiguo: " + nodos[finX][finY].getX() + "," + nodos[finX][finY].getY() + "; Tipo: " + nodos[finX][finY].getEstado());
+            nodos[finX][finY].setVacio();
+            casillas[finX][finY].setBackground(Color.white);
+            System.out.print(" -> " + nodos[finX][finY].getEstado()+ "\n");
+        }
+        finX = coordenadas[0];
+        finY = coordenadas[1];
+        
+        nodos[finX][finY].setFinal();
+        casillas[finX][finY].setBackground(Color.red);
+        
         System.out.println("Casilla: " + coordenadas[0] + "," + coordenadas[1]);
-        casillas[coordenadas[0]][coordenadas[1]].setBackground(Color.red);
+        System.out.println("Nodo nuevo: " + nodos[coordenadas[0]][coordenadas[1]].getX() + "," + nodos[coordenadas[0]][coordenadas[1]].getY() + "; Tipo: " + nodos[coordenadas[0]][coordenadas[1]].getEstado());
+        repaint();
     }
 
     private int[] obtenerCoordenadas(JPanel boton) {
