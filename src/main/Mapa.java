@@ -121,6 +121,22 @@ public class Mapa extends JPanel {
         repaint();
     }
 
+    public void reiniciarMapa(){
+        
+        inicioX = -1;
+        inicioY = -1;
+        finX = -1;
+        finY = -1;
+        
+        for (int fila = 0; fila < numCasilla; fila++) {
+            for (int columna = 0; columna < numCasilla; columna++) {
+                casillas[fila][columna].setBackground(Color.white);
+                nodos[fila][columna].setVacio();
+            }
+        }
+        repaint();
+    }
+    
     private int[] obtenerCoordenadas(JPanel boton) {
         int coordenadas[] = new int[2];
         for (int i = 0; i < 2; i++) {

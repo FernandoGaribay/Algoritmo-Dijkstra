@@ -50,7 +50,7 @@ class Nodo {
         setEstado(Estado.CAMINO_FINAL);
     }
             
-    private enum Estado{
+    public enum Estado{
         INICIO,
         FINAL,
         MURO,

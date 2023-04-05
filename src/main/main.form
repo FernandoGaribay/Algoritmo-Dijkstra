@@ -16,10 +16,18 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="btnNumCasillas">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Numero de Casillas"/>
+                <Property name="text" type="java.lang.String" value="Numero de casillas"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNumCasillasActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="btnReiniciar">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reiniciar mapa"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReiniciarActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
