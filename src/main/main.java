@@ -31,11 +31,14 @@ public class main extends javax.swing.JFrame {
 
         pnlContenedor = new javax.swing.JPanel();
         pnlMapa = new javax.swing.JPanel();
+        btnIniciar = new javax.swing.JButton();
+        lblLongCamino = new javax.swing.JLabel();
+        lblComprobaciones = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuHerramientas = new javax.swing.JMenu();
+        btnReiniciar = new javax.swing.JMenuItem();
         menuConfiguracion = new javax.swing.JMenu();
         btnNumCasillas = new javax.swing.JMenuItem();
-        btnReiniciar = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("frame"); // NOI18N
@@ -58,7 +61,33 @@ public class main extends javax.swing.JFrame {
 
         pnlContenedor.add(pnlMapa, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 750, 750));
 
+        btnIniciar.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        btnIniciar.setText("Iniciar busqueda");
+        btnIniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIniciarActionPerformed(evt);
+            }
+        });
+        pnlContenedor.add(btnIniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 20, 180, 60));
+
+        lblLongCamino.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        lblLongCamino.setText("Longitud del camino:");
+        pnlContenedor.add(lblLongCamino, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 310, 30));
+
+        lblComprobaciones.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        lblComprobaciones.setText("Comprobaciones:");
+        pnlContenedor.add(lblComprobaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 310, 30));
+
         menuHerramientas.setText("Herramientas");
+
+        btnReiniciar.setText("Reiniciar mapa");
+        btnReiniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReiniciarActionPerformed(evt);
+            }
+        });
+        menuHerramientas.add(btnReiniciar);
+
         jMenuBar1.add(menuHerramientas);
 
         menuConfiguracion.setText("Configuración");
@@ -70,14 +99,6 @@ public class main extends javax.swing.JFrame {
             }
         });
         menuConfiguracion.add(btnNumCasillas);
-
-        btnReiniciar.setText("Reiniciar mapa");
-        btnReiniciar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReiniciarActionPerformed(evt);
-            }
-        });
-        menuConfiguracion.add(btnReiniciar);
 
         jMenuBar1.add(menuConfiguracion);
 
@@ -107,6 +128,10 @@ public class main extends javax.swing.JFrame {
         this.tablero.reiniciarMapa();
     }//GEN-LAST:event_btnReiniciarActionPerformed
 
+    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnIniciarActionPerformed
+
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -133,9 +158,12 @@ public class main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnIniciar;
     private javax.swing.JMenuItem btnNumCasillas;
     private javax.swing.JMenuItem btnReiniciar;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JLabel lblComprobaciones;
+    private javax.swing.JLabel lblLongCamino;
     private javax.swing.JMenu menuConfiguracion;
     private javax.swing.JMenu menuHerramientas;
     private javax.swing.JPanel pnlContenedor;
