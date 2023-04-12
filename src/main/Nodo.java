@@ -2,64 +2,55 @@ package main;
 
 class Nodo {
 
-    private Estado estado;
+    private Estados estado;
     private int saltos;
     private int x;
     private int y;
     private double distanciaFinal = 0;
 
+    private int anteriorX;
+    private int anteriorY;
+
     public Nodo(int x, int y) {
-        estado = Estado.VACIO;
+        this.estado = Estados.VACIO;
         this.x = x;
         this.y = y;
-        saltos = -1;
+        this.saltos = -1;
     }
 
-    public double calcularDistancia(int finX, int finY) {
-        int xdif = Math.abs(getX() - finX);
-        int ydif = Math.abs(getY() - finY);
-        setDistanciaFinal(Math.sqrt((xdif * xdif) + (ydif * ydif)));
-        return getDistanciaFinal();
-    }
-    
-    private void setEstado(Estado nuevoEstado) {
-        estado = nuevoEstado;
+    private void setEstado(Estados nuevoEstado) {
+        this.estado = nuevoEstado;
     }
 
     public void setInicio() {
-        setEstado(Estado.INICIO);
+        setEstado(Estados.INICIO);
     }
 
     public void setFinal() {
-        setEstado(Estado.FINAL);
+        setEstado(Estados.FINAL);
     }
 
     public void setMuro() {
-        setEstado(Estado.MURO);
+        setEstado(Estados.MURO);
     }
 
     public void setVacio() {
-        setEstado(Estado.VACIO);
+        setEstado(Estados.VACIO);
     }
 
     public void setVisitado() {
-        setEstado(Estado.VISITADO);
+        setEstado(Estados.VISITADO);
+    }
+
+    public void setAbierto() {
+        setEstado(Estados.ABIERTO);
     }
 
     public void setCaminoFinal() {
-        setEstado(Estado.CAMINO_FINAL);
-    }
-            
-    public enum Estado{
-        INICIO,
-        FINAL,
-        MURO,
-        VACIO,
-        VISITADO,
-        CAMINO_FINAL
+        setEstado(Estados.CAMINO_FINAL);
     }
 
-    public Estado getEstado() {
+    public Estados getEstado() {
         return estado;
     }
 
@@ -93,5 +84,18 @@ class Nodo {
 
     public void setDistanciaFinal(double distanciaFinal) {
         this.distanciaFinal = distanciaFinal;
+    }
+
+    public int getAnteriorX() {
+        return anteriorX;
+    }
+
+    public int getAnteriorY() {
+        return anteriorY;
+    }
+
+    public void setNodoAnterior(int x, int y) {
+        anteriorX = x;
+        anteriorY = y;
     }
 }
