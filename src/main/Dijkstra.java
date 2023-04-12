@@ -16,6 +16,15 @@ public class Dijkstra extends Thread {
     private main main;
     private Mapa mapa;
 
+    ArrayList<Nodo[][]> historial = new ArrayList<>();
+
+    public ArrayList<Nodo[][]> getHistorial() {
+        return historial;
+    }
+
+    public void setHistorial(ArrayList<Nodo[][]> historial) {
+        this.historial = historial;
+    }
     
     public Dijkstra(main main, Mapa mapa){
 
@@ -52,6 +61,31 @@ public class Dijkstra extends Thread {
 
                 main.actualizarUI();
                 delay();
+            } else {
+                prioridad.remove(0);
+            }
+        }
+    }
+
+    public void algDijkstra() {
+        if (!mapa.validacion()) {
+            JOptionPane.showMessageDialog(main, "Favor de ingresar los nodos de inicio y de final.");
+            return;
+        }
+
+        ArrayList<Nodo> prioridad = new ArrayList<Nodo>();
+        prioridad.add(nodos[inicioX][inicioY]);
+        while (ciclo) {
+            int saltos = prioridad.get(0).getSaltos() + 1;
+            ArrayList<Nodo> explorados = obtenerNodosVecinos(prioridad.get(0), saltos);
+
+            if (!explorados.isEmpty()) {
+                prioridad.remove(0);
+                prioridad.addAll(explorados);
+
+                main.actualizarUI();
+//                historial.add(nodos);
+//                delay();
             } else {
                 prioridad.remove(0);
             }
@@ -105,6 +139,7 @@ public class Dijkstra extends Thread {
             
             saltos--;
         }
+//        main.inicializarHistorial();
         ciclo = false;  
     }
 

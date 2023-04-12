@@ -1,16 +1,20 @@
 package main;
 
 import java.util.ArrayList;
-import java.util.Stack;
 import javax.swing.JOptionPane;
 
 public class main extends javax.swing.JFrame {
 
-    private static int numeroCasillas = 30;
+    private static int longitud;
+    private static int validaciones;
+    private static int numeroCasillas = 5;
     private static int milisegundos = 15;
 
     private Mapa tablero;
     private Dijkstra objDijkstra;
+    
+    ArrayList<Nodo[][]> historial = new ArrayList<>();
+    int index;
     
     public main() {
         initComponents();
@@ -35,7 +39,7 @@ public class main extends javax.swing.JFrame {
     }
     
     public void imprimirNodos(Nodo nodos[][]){
-        this.lblComprobaciones.setText("Misma vtn");
+        this.lblValidaciones.setText("Misma vtn");
         for (int fila = 0; fila < nodos.length; fila++) {
             for (int columna = 0; columna < nodos.length; columna++) {
                 if(nodos[fila][columna].getEstado() == Estados.INICIO){
@@ -65,7 +69,7 @@ public class main extends javax.swing.JFrame {
         pnlMapa = new javax.swing.JPanel();
         btnIniciar = new javax.swing.JButton();
         lblLongCamino = new javax.swing.JLabel();
-        lblComprobaciones = new javax.swing.JLabel();
+        lblValidaciones = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuHerramientas = new javax.swing.JMenu();
         btnReiniciar = new javax.swing.JMenuItem();
@@ -109,9 +113,9 @@ public class main extends javax.swing.JFrame {
         lblLongCamino.setText("Longitud del camino:");
         pnlContenedor.add(lblLongCamino, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 310, 30));
 
-        lblComprobaciones.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        lblComprobaciones.setText("Comprobaciones:");
-        pnlContenedor.add(lblComprobaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 310, 30));
+        lblValidaciones.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        lblValidaciones.setText("Validaciones:");
+        pnlContenedor.add(lblValidaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 310, 30));
 
         menuHerramientas.setText("Herramientas");
 
@@ -194,8 +198,13 @@ public class main extends javax.swing.JFrame {
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         objDijkstra = new Dijkstra(this, tablero);
-        objDijkstra.start(); 
+        objDijkstra.algDijkstra();
         
+        longitud = objDijkstra.getLongitud();
+        this.lblLongCamino.setText("Longitud del camino: " + longitud);
+        
+        validaciones = objDijkstra.getValidaciones();
+        this.lblValidaciones.setText("Validaciones: " + validaciones);
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
@@ -211,6 +220,17 @@ public class main extends javax.swing.JFrame {
         this.milisegundos = milisegundos;
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    public void inicializarHistorial(){
+        index = objDijkstra.getNodos().length;
+        historial = objDijkstra.getHistorial();
+               for (Nodo[][] nodoses : historial) {
+                    imprimirNodos(nodoses);
+                    System.out.println("");
+                }
+        
+    }
+    
+    
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -252,8 +272,8 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JMenuItem btnSiguiente;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    public javax.swing.JLabel lblComprobaciones;
     private javax.swing.JLabel lblLongCamino;
+    public javax.swing.JLabel lblValidaciones;
     private javax.swing.JMenu menuConfiguracion;
     private javax.swing.JMenu menuHerramientas;
     private javax.swing.JPanel pnlContenedor;
