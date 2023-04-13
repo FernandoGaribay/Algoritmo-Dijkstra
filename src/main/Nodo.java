@@ -17,6 +17,13 @@ class Nodo {
         this.y = y;
         this.saltos = -1;
     }
+    
+    public Nodo(Estados estado, int x, int y) {
+        this.estado = estado;
+        this.x = x;
+        this.y = y;
+        this.saltos = -1;
+    }
 
     private void setEstado(Estados nuevoEstado) {
         this.estado = nuevoEstado;

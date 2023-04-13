@@ -1,20 +1,21 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class main extends javax.swing.JFrame {
 
     private static int longitud;
     private static int validaciones;
+    private static int index;
     private static int numeroCasillas = 5;
     private static int milisegundos = 15;
 
     private Mapa tablero;
     private Dijkstra objDijkstra;
     
-    ArrayList<Nodo[][]> historial = new ArrayList<>();
-    int index;
+    List<Nodo[][]> historial = new ArrayList<>();
     
     public main() {
         initComponents();
@@ -38,29 +39,6 @@ public class main extends javax.swing.JFrame {
         pnlMapa.repaint();
     }
     
-    public void imprimirNodos(Nodo nodos[][]){
-        this.lblValidaciones.setText("Misma vtn");
-        for (int fila = 0; fila < nodos.length; fila++) {
-            for (int columna = 0; columna < nodos.length; columna++) {
-                if(nodos[fila][columna].getEstado() == Estados.INICIO){
-                    System.out.print("I");
-                } else if (tablero.getNodos()[fila][columna].getEstado() == Estados.FINAL){
-                    System.out.print("F");
-                } else if (tablero.getNodos()[fila][columna].getEstado() == Estados.MURO) {
-                    System.out.print("M");
-                } else if (tablero.getNodos()[fila][columna].getEstado() == Estados.VACIO) {
-                    System.out.print(".");
-                } else if (tablero.getNodos()[fila][columna].getEstado() == Estados.VISITADO) {
-                    System.out.print("*");
-                } else if (tablero.getNodos()[fila][columna].getEstado() == Estados.CAMINO_FINAL) {
-                    System.out.print("-");
-                }
-            }
-            System.out.println("");
-        }
-    }
-
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -198,21 +176,21 @@ public class main extends javax.swing.JFrame {
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         objDijkstra = new Dijkstra(this, tablero);
-        objDijkstra.algDijkstra();
-        
-        longitud = objDijkstra.getLongitud();
-        this.lblLongCamino.setText("Longitud del camino: " + longitud);
-        
-        validaciones = objDijkstra.getValidaciones();
-        this.lblValidaciones.setText("Validaciones: " + validaciones);
+        objDijkstra.start();
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        System.out.println("Paso siguiente *");
+        if(index < historial.size()-1){
+            index++;
+            tablero.pintarMapa(historial.get(index));
+        }
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
-        System.out.println("Paso anterior *");
+        if(index > 0){
+            index--;
+            tablero.pintarMapa(historial.get(index));
+        }
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -220,16 +198,66 @@ public class main extends javax.swing.JFrame {
         this.milisegundos = milisegundos;
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    public void inicializarHistorial(){
-        index = objDijkstra.getNodos().length;
-        historial = objDijkstra.getHistorial();
-               for (Nodo[][] nodoses : historial) {
-                    imprimirNodos(nodoses);
-                    System.out.println("");
-                }
+    public void actualizarVariables() {
+        longitud = objDijkstra.getLongitud();
+        this.lblLongCamino.setText("Longitud del camino: " + longitud);
+
+        validaciones = objDijkstra.getValidaciones();
+        this.lblValidaciones.setText("Validaciones: " + validaciones);
         
+        historial = objDijkstra.getHistorial();
+        imprimirMatrices(historial);
+        
+        index = historial.size();
     }
     
+    public static void imprimirMatrices(List<Nodo[][]> matrices) {
+        for (int i = 0; i < matrices.size(); i++) {
+            System.out.println("Matriz " + (i + 1) + ":");
+            Nodo[][] matriz = matrices.get(i);
+            for (int fila = 0; fila < matriz.length; fila++) {
+                for (int columna = 0; columna < matriz[fila].length; columna++) {
+                    if (matriz[fila][columna].getEstado() == Estados.INICIO) {
+                        System.out.print("I");
+                    } else if (matriz[fila][columna].getEstado() == Estados.FINAL) {
+                        System.out.print("F");
+                    } else if (matriz[fila][columna].getEstado() == Estados.MURO) {
+                        System.out.print("M");
+                    } else if (matriz[fila][columna].getEstado() == Estados.VACIO) {
+                        System.out.print(".");
+                    } else if (matriz[fila][columna].getEstado() == Estados.VISITADO) {
+                        System.out.print("*");
+                    } else if (matriz[fila][columna].getEstado() == Estados.CAMINO_FINAL) {
+                        System.out.print("-");
+                    }
+                }
+                System.out.println();
+            }
+            System.out.println();
+        }
+    }
+    
+    public void imprimirNodos(Nodo nodos[][]){
+        this.lblValidaciones.setText("Misma vtn");
+        for (int fila = 0; fila < nodos.length; fila++) {
+            for (int columna = 0; columna < nodos.length; columna++) {
+                if(nodos[fila][columna].getEstado() == Estados.INICIO){
+                    System.out.print("I");
+                } else if (tablero.getNodos()[fila][columna].getEstado() == Estados.FINAL){
+                    System.out.print("F");
+                } else if (tablero.getNodos()[fila][columna].getEstado() == Estados.MURO) {
+                    System.out.print("M");
+                } else if (tablero.getNodos()[fila][columna].getEstado() == Estados.VACIO) {
+                    System.out.print(".");
+                } else if (tablero.getNodos()[fila][columna].getEstado() == Estados.VISITADO) {
+                    System.out.print("*");
+                } else if (tablero.getNodos()[fila][columna].getEstado() == Estados.CAMINO_FINAL) {
+                    System.out.print("-");
+                }
+            }
+            System.out.println("");
+        }
+    }
     
     public static void main(String args[]) {
         try {
