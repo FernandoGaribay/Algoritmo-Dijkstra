@@ -145,18 +145,79 @@ public class Dijkstra extends Thread{
         main.actualizarVariables();
         ciclo = false;
     }
- 
+  
+//    public void añadirHistorial() {
+//        Nodo[][] nodosCopia = new Nodo[numCasillas][numCasillas];
+//
+//        for (int i = 0; i < numCasillas; i++) {
+//            for (int j = 0; j < numCasillas; j++) {
+//                Estados estadoNodoActual = nodos[i][j].getEstado();
+//                nodosCopia[i][j] = new Nodo(estadoNodoActual, i, j);
+//            }
+//        }
+//
+//        // Comparar con la última matriz en el historial (si existe)
+//        if (!historial.isEmpty()) {
+//            Nodo[][] ultimaMatriz = historial.get(historial.size() - 1);
+//            boolean iguales = true;
+//
+//            for (int i = 0; i < numCasillas; i++) {
+//                for (int j = 0; j < numCasillas; j++) {
+//                    if (nodosCopia[i][j].getEstado() != ultimaMatriz[i][j].getEstado()) {
+//                        iguales = false;
+//                        break;
+//                    }
+//                }
+//                if (!iguales) {
+//                    break;
+//                }
+//            }
+//
+//            if (iguales) {
+//                System.out.println("Matriz igual");
+//            } else {
+//                historial.add(nodosCopia);
+//            }
+//        } else {
+//            historial.add(nodosCopia);
+//        }
+//    }
+    
     public void añadirHistorial() {
         Nodo[][] nodosCopia = new Nodo[numCasillas][numCasillas];
 
         for (int i = 0; i < numCasillas; i++) {
             for (int j = 0; j < numCasillas; j++) {
-                Estados estadoNodoActual = nodos[i][j].getEstado();
-                nodosCopia[i][j] = new Nodo(estadoNodoActual, i, j);
+                nodosCopia[i][j] = new Nodo(nodos[i][j].getEstado(), i, j);
             }
         }
-        historial.add(nodosCopia);
+
+        if (!historial.isEmpty()) {
+            Nodo[][] ultimaMatriz = historial.get(historial.size() - 1);
+            boolean iguales = true;
+
+            for (int i = 0; i < numCasillas; i++) {
+                for (int j = 0; j < numCasillas; j++) {
+                    if (nodosCopia[i][j].getEstado() != ultimaMatriz[i][j].getEstado()) {
+                        iguales = false;
+                        break;
+                    }
+                }
+                if (!iguales) {
+                    break;
+                }
+            }
+
+            if (iguales) {
+                System.out.println("Matriz igual");
+            } else {
+                historial.add(nodosCopia);
+            }
+        } else {
+            historial.add(nodosCopia);
+        }
     }
+
 
     private void delay() {
         try {

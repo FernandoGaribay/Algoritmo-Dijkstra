@@ -206,7 +206,7 @@ public class main extends javax.swing.JFrame {
         this.lblValidaciones.setText("Validaciones: " + validaciones);
         
         historial = objDijkstra.getHistorial();
-        imprimirMatrices(historial);
+//        imprimirMatrices(historial);
         
         index = historial.size();
     }
