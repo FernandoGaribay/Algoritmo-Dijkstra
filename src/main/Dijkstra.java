@@ -1,7 +1,6 @@
 package main;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -15,8 +14,8 @@ public class Dijkstra extends Thread{
     private int longitud;
     boolean ciclo;
 
-    private main main;
-    private Mapa mapa;
+    private final main main;
+    private final Mapa mapa;
 
     List<Nodo[][]> historial = new ArrayList<>();
 
@@ -78,7 +77,7 @@ public class Dijkstra extends Thread{
 
         ArrayList<Nodo> prioridad = new ArrayList<Nodo>();
         prioridad.add(nodos[inicioX][inicioY]);
-        while (ciclo) {
+      
             int saltos = prioridad.get(0).getSaltos() + 1;
             ArrayList<Nodo> explorados = obtenerNodosVecinos(prioridad.get(0), saltos);
 
@@ -91,7 +90,7 @@ public class Dijkstra extends Thread{
                 prioridad.remove(0);
             }
             añadirHistorial();
-        }
+        
     }
 
     public ArrayList<Nodo> obtenerNodosVecinos(Nodo actual, int hops) {
@@ -145,43 +144,6 @@ public class Dijkstra extends Thread{
         main.actualizarVariables();
         ciclo = false;
     }
-  
-//    public void añadirHistorial() {
-//        Nodo[][] nodosCopia = new Nodo[numCasillas][numCasillas];
-//
-//        for (int i = 0; i < numCasillas; i++) {
-//            for (int j = 0; j < numCasillas; j++) {
-//                Estados estadoNodoActual = nodos[i][j].getEstado();
-//                nodosCopia[i][j] = new Nodo(estadoNodoActual, i, j);
-//            }
-//        }
-//
-//        // Comparar con la última matriz en el historial (si existe)
-//        if (!historial.isEmpty()) {
-//            Nodo[][] ultimaMatriz = historial.get(historial.size() - 1);
-//            boolean iguales = true;
-//
-//            for (int i = 0; i < numCasillas; i++) {
-//                for (int j = 0; j < numCasillas; j++) {
-//                    if (nodosCopia[i][j].getEstado() != ultimaMatriz[i][j].getEstado()) {
-//                        iguales = false;
-//                        break;
-//                    }
-//                }
-//                if (!iguales) {
-//                    break;
-//                }
-//            }
-//
-//            if (iguales) {
-//                System.out.println("Matriz igual");
-//            } else {
-//                historial.add(nodosCopia);
-//            }
-//        } else {
-//            historial.add(nodosCopia);
-//        }
-//    }
     
     public void añadirHistorial() {
         Nodo[][] nodosCopia = new Nodo[numCasillas][numCasillas];
@@ -217,7 +179,6 @@ public class Dijkstra extends Thread{
             historial.add(nodosCopia);
         }
     }
-
 
     private void delay() {
         try {

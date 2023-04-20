@@ -25,7 +25,7 @@ public class Mapa extends JPanel {
         this.numCasilla = numCasilla;
         
         casillas = new JPanel[numCasilla][numCasilla];
-        nodos = inicializarNodos();
+        nodos = reiniciarNodos();
         inicioX = -1;
         inicioY = -1;
         finX = -1;
@@ -34,7 +34,7 @@ public class Mapa extends JPanel {
         crearMapa();
     }
     
-    private Nodo[][] inicializarNodos() {
+    public Nodo[][] reiniciarNodos() {
         Nodo[][] initNodos = new Nodo[numCasilla][numCasilla];
         
         for (int fila = 0; fila < numCasilla; fila++) {
@@ -99,6 +99,10 @@ public class Mapa extends JPanel {
                     int x = (e.getX() + casillas[fila][columna].getX()) / ancho;
                     int y = (e.getY() + casillas[fila][columna].getY()) / ancho;
 
+                    if(nodos[y][x].getEstado() != VACIO && nodos[y][x].getEstado() != MURO){
+                        return;
+                    }
+                    
                     if ((e.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) == MouseEvent.BUTTON1_DOWN_MASK) {
                         nodos[y][x].setMuro();
                         casillas[y][x].setBackground(Color.gray);
@@ -147,9 +151,9 @@ public class Mapa extends JPanel {
         repaint();
     }
     
-    private void clickDerecho(JPanel e){     
+    private void clickDerecho(JPanel e){ 
         int coordenadas[] = obtenerCoordenadas(e);
-
+        
         if (finX > -1 && finY > -1) {
             System.out.print("\nNodo antiguo: " + nodos[finX][finY].getX() + "," + nodos[finX][finY].getY() + "; Tipo: " + nodos[finX][finY].getEstado());
             nodos[finX][finY].setVacio();
@@ -176,10 +180,10 @@ public class Mapa extends JPanel {
         
         for (int fila = 0; fila < numCasilla; fila++) {
             for (int columna = 0; columna < numCasilla; columna++) {
-                casillas[fila][columna].setBackground(Color.white);
-                nodos = inicializarNodos();
+                casillas[fila][columna].setBackground(Color.white); 
             }
         }
+        nodos = reiniciarNodos();
         repaint();
     }
     

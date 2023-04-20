@@ -48,6 +48,8 @@ public class main extends javax.swing.JFrame {
         btnIniciar = new javax.swing.JButton();
         lblLongCamino = new javax.swing.JLabel();
         lblValidaciones = new javax.swing.JLabel();
+        btnDerecha = new javax.swing.JButton();
+        btnIzquierda = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuHerramientas = new javax.swing.JMenu();
         btnReiniciar = new javax.swing.JMenuItem();
@@ -94,6 +96,22 @@ public class main extends javax.swing.JFrame {
         lblValidaciones.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         lblValidaciones.setText("Validaciones:");
         pnlContenedor.add(lblValidaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 310, 30));
+
+        btnDerecha.setText("->");
+        btnDerecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDerechaActionPerformed(evt);
+            }
+        });
+        pnlContenedor.add(btnDerecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 20, 50, 60));
+
+        btnIzquierda.setText("<-");
+        btnIzquierda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIzquierdaActionPerformed(evt);
+            }
+        });
+        pnlContenedor.add(btnIzquierda, new org.netbeans.lib.awtextra.AbsoluteConstraints(472, 20, 50, 60));
 
         menuHerramientas.setText("Herramientas");
 
@@ -198,6 +216,14 @@ public class main extends javax.swing.JFrame {
         this.milisegundos = milisegundos;
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void btnDerechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDerechaActionPerformed
+        
+    }//GEN-LAST:event_btnDerechaActionPerformed
+
+    private void btnIzquierdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzquierdaActionPerformed
+        
+    }//GEN-LAST:event_btnIzquierdaActionPerformed
+
     public void actualizarVariables() {
         longitud = objDijkstra.getLongitud();
         this.lblLongCamino.setText("Longitud del camino: " + longitud);
@@ -294,7 +320,9 @@ public class main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem btnAnterior;
+    private javax.swing.JButton btnDerecha;
     private javax.swing.JButton btnIniciar;
+    private javax.swing.JButton btnIzquierda;
     private javax.swing.JMenuItem btnNumCasillas;
     private javax.swing.JMenuItem btnReiniciar;
     private javax.swing.JMenuItem btnSiguiente;
