@@ -181,11 +181,13 @@ public class main extends javax.swing.JFrame {
             this.numeroCasillas = Integer.parseInt(JOptionPane.showInputDialog("Dijite el numero de casillas"));
             if (numeroCasillas > 4 && numeroCasillas < 76) {
                 inicializarMapa();
+                this.mapa.reiniciarMapa();
+                objDijkstra = null;
+                this.lblLongCamino.setText("Longitud del camino: ---");
+                this.lblValidaciones.setText("Validaciones: ---");
             } else {
                 JOptionPane.showMessageDialog(this, "Favor de insertar un numero entre el 5 y 75.");
-
             }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Favor de insertar un numero valido.");
         }
