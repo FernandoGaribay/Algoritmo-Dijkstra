@@ -17,17 +17,18 @@ public class Dijkstra extends Thread{
     private final main main;
     private final Mapa mapa;
 
-    List<Nodo[][]> historial = new ArrayList<>();
-
-    public List<Nodo[][]> getHistorial() {
-        return historial;
-    }
-
-    public void setHistorial(List<Nodo[][]> historial) {
-        this.historial = historial;
-    }
+    List<Nodo[][]> historial;
+    private ArrayList<Nodo> prioridad;
 
     public Dijkstra(main main, Mapa mapa) {
+        this.main = main;
+        this.mapa = mapa;
+
+        inicializarVariables();
+        prioridad.add(nodos[inicioX][inicioY]);
+    }
+    
+    private void inicializarVariables(){
 
         this.nodos = mapa.getNodos();
         this.numCasillas = mapa.getNumCasilla();
@@ -37,20 +38,16 @@ public class Dijkstra extends Thread{
 
         this.validaciones = 0;
         this.longitud = 0;
-        this.ciclo = true;
+        this.ciclo = false;
 
-        this.main = main;
-        this.mapa = mapa;
+        prioridad = new ArrayList<>();
+        historial = new ArrayList<>();
     }
     
     @Override
     public void run() {
-        if (!mapa.validacion()) {
-            JOptionPane.showMessageDialog(main, "Favor de ingresar los nodos de inicio y de final.");
-            return;
-        }
+        ciclo = true;
 
-        ArrayList<Nodo> prioridad = new ArrayList<Nodo>();
         prioridad.add(nodos[inicioX][inicioY]);
         while (ciclo) {
             int saltos = prioridad.get(0).getSaltos() + 1;
@@ -70,27 +67,22 @@ public class Dijkstra extends Thread{
     }
 
     public void algDijkstra() {
-        if (!mapa.validacion()) {
-            JOptionPane.showMessageDialog(main, "Favor de ingresar los nodos de inicio y de final.");
+        if(prioridad.isEmpty()){
             return;
         }
 
-        ArrayList<Nodo> prioridad = new ArrayList<Nodo>();
-        prioridad.add(nodos[inicioX][inicioY]);
-      
-            int saltos = prioridad.get(0).getSaltos() + 1;
-            ArrayList<Nodo> explorados = obtenerNodosVecinos(prioridad.get(0), saltos);
+        int saltos = prioridad.get(0).getSaltos() + 1;
+        ArrayList<Nodo> explorados = obtenerNodosVecinos(prioridad.get(0), saltos);
 
-            if (!explorados.isEmpty()) {
-                prioridad.remove(0);
-                prioridad.addAll(explorados);
+        if (!explorados.isEmpty()) {
+            prioridad.remove(0);
+            prioridad.addAll(explorados);
 
-                main.actualizarUI();
-            } else {
-                prioridad.remove(0);
-            }
-            añadirHistorial();
-        
+            main.actualizarUI();
+        } else {
+            prioridad.remove(0);
+        }
+        añadirHistorial(); 
     }
 
     public ArrayList<Nodo> obtenerNodosVecinos(Nodo actual, int hops) {
@@ -171,7 +163,10 @@ public class Dijkstra extends Thread{
             }
 
             if (iguales) {
-                System.out.println("Matriz igual");
+                if(!ciclo){
+                    algDijkstra();
+                    System.out.println("Matriz igual");
+                }
             } else {
                 historial.add(nodosCopia);
             }
@@ -186,6 +181,14 @@ public class Dijkstra extends Thread{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    
+    public List<Nodo[][]> getHistorial() {
+        return historial;
+    }
+
+    public void setHistorial(List<Nodo[][]> historial) {
+        this.historial = historial;
     }
 
     public Nodo[][] getNodos() {

@@ -12,7 +12,7 @@ public class main extends javax.swing.JFrame {
     private static int numeroCasillas = 5;
     private static int milisegundos = 15;
 
-    private Mapa tablero;
+    private Mapa mapa;
     private Dijkstra objDijkstra;
     
     List<Nodo[][]> historial = new ArrayList<>();
@@ -25,16 +25,16 @@ public class main extends javax.swing.JFrame {
     public void inicializarMapa(){
         pnlMapa.removeAll();
         
-        tablero = new Mapa(numeroCasillas);
-        pnlMapa.add(tablero);
-        tablero.setBounds(0, 0, pnlMapa.getWidth(), pnlMapa.getHeight());
+        mapa = new Mapa(numeroCasillas);
+        pnlMapa.add(mapa);
+        mapa.setBounds(0, 0, pnlMapa.getWidth(), pnlMapa.getHeight());
         
         pnlMapa.revalidate();
         pnlMapa.repaint();
     }
     
     public void actualizarUI() {
-        tablero.pintarMapa(objDijkstra.getNodos());
+        mapa.pintarMapa(objDijkstra.getNodos());
         pnlMapa.revalidate();
         pnlMapa.repaint();
     }
@@ -48,8 +48,7 @@ public class main extends javax.swing.JFrame {
         btnIniciar = new javax.swing.JButton();
         lblLongCamino = new javax.swing.JLabel();
         lblValidaciones = new javax.swing.JLabel();
-        btnDerecha = new javax.swing.JButton();
-        btnIzquierda = new javax.swing.JButton();
+        btnPasoAPaso = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuHerramientas = new javax.swing.JMenu();
         btnReiniciar = new javax.swing.JMenuItem();
@@ -57,10 +56,11 @@ public class main extends javax.swing.JFrame {
         btnAnterior = new javax.swing.JMenuItem();
         menuConfiguracion = new javax.swing.JMenu();
         btnNumCasillas = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        btnMilisegundos = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("frame"); // NOI18N
+        setResizable(false);
 
         pnlContenedor.setBackground(new java.awt.Color(255, 255, 255));
         pnlContenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -90,28 +90,21 @@ public class main extends javax.swing.JFrame {
         pnlContenedor.add(btnIniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 20, 180, 60));
 
         lblLongCamino.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        lblLongCamino.setText("Longitud del camino:");
+        lblLongCamino.setText("Longitud del camino: ---");
         pnlContenedor.add(lblLongCamino, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 310, 30));
 
         lblValidaciones.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        lblValidaciones.setText("Validaciones:");
+        lblValidaciones.setText("Validaciones: ---");
         pnlContenedor.add(lblValidaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 310, 30));
 
-        btnDerecha.setText("->");
-        btnDerecha.addActionListener(new java.awt.event.ActionListener() {
+        btnPasoAPaso.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        btnPasoAPaso.setText("Paso a Paso");
+        btnPasoAPaso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDerechaActionPerformed(evt);
+                btnPasoAPasoActionPerformed(evt);
             }
         });
-        pnlContenedor.add(btnDerecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 20, 50, 60));
-
-        btnIzquierda.setText("<-");
-        btnIzquierda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIzquierdaActionPerformed(evt);
-            }
-        });
-        pnlContenedor.add(btnIzquierda, new org.netbeans.lib.awtextra.AbsoluteConstraints(472, 20, 50, 60));
+        pnlContenedor.add(btnPasoAPaso, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 20, 140, 60));
 
         menuHerramientas.setText("Herramientas");
 
@@ -155,14 +148,14 @@ public class main extends javax.swing.JFrame {
         });
         menuConfiguracion.add(btnNumCasillas);
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.ALT_DOWN_MASK));
-        jMenuItem1.setText("Milisegundos de Delay");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        btnMilisegundos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        btnMilisegundos.setText("Milisegundos de Delay");
+        btnMilisegundos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                btnMilisegundosActionPerformed(evt);
             }
         });
-        menuConfiguracion.add(jMenuItem1);
+        menuConfiguracion.add(btnMilisegundos);
 
         jMenuBar1.add(menuConfiguracion);
 
@@ -189,40 +182,53 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNumCasillasActionPerformed
 
     private void btnReiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReiniciarActionPerformed
-        this.tablero.reiniciarMapa();
+        this.mapa.reiniciarMapa();
+        objDijkstra = null;
+        this.lblLongCamino.setText("Longitud del camino: ---");
+        this.lblValidaciones.setText("Validaciones: ---");
     }//GEN-LAST:event_btnReiniciarActionPerformed
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
-        objDijkstra = new Dijkstra(this, tablero);
-        objDijkstra.start();
+        if(objDijkstra == null && mapa.validacion()){
+            objDijkstra = new Dijkstra(this, mapa);
+            objDijkstra.start();
+        }else{
+            JOptionPane.showMessageDialog(this, "Favor de ingresar los nodos de inicio y de final.");
+        }
+  
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         if(index < historial.size()-1){
             index++;
-            tablero.pintarMapa(historial.get(index));
+            mapa.pintarMapa(historial.get(index));
         }
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
-        if(index > 0){
+        if (index > 0) {
             index--;
-            tablero.pintarMapa(historial.get(index));
+            mapa.pintarMapa(historial.get(index));
         }
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void btnMilisegundosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMilisegundosActionPerformed
         int milisegundos = Integer.parseInt(JOptionPane.showInputDialog("Dijite el numero de delay (milisegundos):"));
         this.milisegundos = milisegundos;
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_btnMilisegundosActionPerformed
 
-    private void btnDerechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDerechaActionPerformed
-        
-    }//GEN-LAST:event_btnDerechaActionPerformed
+    private void btnPasoAPasoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasoAPasoActionPerformed
 
-    private void btnIzquierdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzquierdaActionPerformed
-        
-    }//GEN-LAST:event_btnIzquierdaActionPerformed
+        if (objDijkstra == null && mapa.validacion()) {
+            objDijkstra = new Dijkstra(this, mapa);
+        }
+        if (!mapa.validacion()) {
+            JOptionPane.showMessageDialog(this, "Favor de ingresar los nodos de inicio y de final.");
+        } else {
+            objDijkstra.algDijkstra();
+            actualizarVariables();
+        }
+    }//GEN-LAST:event_btnPasoAPasoActionPerformed
 
     public void actualizarVariables() {
         longitud = objDijkstra.getLongitud();
@@ -232,8 +238,6 @@ public class main extends javax.swing.JFrame {
         this.lblValidaciones.setText("Validaciones: " + validaciones);
         
         historial = objDijkstra.getHistorial();
-//        imprimirMatrices(historial);
-        
         index = historial.size();
     }
     
@@ -269,15 +273,15 @@ public class main extends javax.swing.JFrame {
             for (int columna = 0; columna < nodos.length; columna++) {
                 if(nodos[fila][columna].getEstado() == Estados.INICIO){
                     System.out.print("I");
-                } else if (tablero.getNodos()[fila][columna].getEstado() == Estados.FINAL){
+                } else if (mapa.getNodos()[fila][columna].getEstado() == Estados.FINAL){
                     System.out.print("F");
-                } else if (tablero.getNodos()[fila][columna].getEstado() == Estados.MURO) {
+                } else if (mapa.getNodos()[fila][columna].getEstado() == Estados.MURO) {
                     System.out.print("M");
-                } else if (tablero.getNodos()[fila][columna].getEstado() == Estados.VACIO) {
+                } else if (mapa.getNodos()[fila][columna].getEstado() == Estados.VACIO) {
                     System.out.print(".");
-                } else if (tablero.getNodos()[fila][columna].getEstado() == Estados.VISITADO) {
+                } else if (mapa.getNodos()[fila][columna].getEstado() == Estados.VISITADO) {
                     System.out.print("*");
-                } else if (tablero.getNodos()[fila][columna].getEstado() == Estados.CAMINO_FINAL) {
+                } else if (mapa.getNodos()[fila][columna].getEstado() == Estados.CAMINO_FINAL) {
                     System.out.print("-");
                 }
             }
@@ -320,14 +324,13 @@ public class main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem btnAnterior;
-    private javax.swing.JButton btnDerecha;
     private javax.swing.JButton btnIniciar;
-    private javax.swing.JButton btnIzquierda;
+    private javax.swing.JMenuItem btnMilisegundos;
     private javax.swing.JMenuItem btnNumCasillas;
+    private javax.swing.JButton btnPasoAPaso;
     private javax.swing.JMenuItem btnReiniciar;
     private javax.swing.JMenuItem btnSiguiente;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JLabel lblLongCamino;
     public javax.swing.JLabel lblValidaciones;
     private javax.swing.JMenu menuConfiguracion;
