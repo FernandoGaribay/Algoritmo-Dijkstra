@@ -177,8 +177,19 @@ public class main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNumCasillasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNumCasillasActionPerformed
-        this.numeroCasillas = Integer.parseInt(JOptionPane.showInputDialog("Dijite el numero de casillas"));
-        inicializarMapa();
+        try {
+            this.numeroCasillas = Integer.parseInt(JOptionPane.showInputDialog("Dijite el numero de casillas"));
+            if (numeroCasillas > 4 && numeroCasillas < 76) {
+                inicializarMapa();
+            } else {
+                JOptionPane.showMessageDialog(this, "Favor de insertar un numero entre el 5 y 75.");
+
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Favor de insertar un numero valido.");
+        }
+
     }//GEN-LAST:event_btnNumCasillasActionPerformed
 
     private void btnReiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReiniciarActionPerformed
@@ -189,13 +200,16 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReiniciarActionPerformed
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
-        if(objDijkstra == null && mapa.validacion()){
+        if (objDijkstra == null && mapa.validacion()) {
             objDijkstra = new Dijkstra(this, mapa);
-            objDijkstra.start();
-        }else{
-            JOptionPane.showMessageDialog(this, "Favor de ingresar los nodos de inicio y de final.");
         }
-  
+        if (!mapa.validacion()) {
+            JOptionPane.showMessageDialog(this, "Favor de ingresar los nodos de inicio y de final.");
+        } else {
+            objDijkstra.start();
+            actualizarVariables();
+        }
+        
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
@@ -213,12 +227,15 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
     private void btnMilisegundosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMilisegundosActionPerformed
-        int milisegundos = Integer.parseInt(JOptionPane.showInputDialog("Dijite el numero de delay (milisegundos):"));
-        this.milisegundos = milisegundos;
+        try {
+            int milisegundos = Integer.parseInt(JOptionPane.showInputDialog("Dijite el numero de delay (milisegundos):"));
+            this.milisegundos = milisegundos;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Favor de insertar un numero valido.");
+        }
     }//GEN-LAST:event_btnMilisegundosActionPerformed
 
     private void btnPasoAPasoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasoAPasoActionPerformed
-
         if (objDijkstra == null && mapa.validacion()) {
             objDijkstra = new Dijkstra(this, mapa);
         }
